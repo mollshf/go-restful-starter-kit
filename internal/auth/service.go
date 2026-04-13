@@ -2,46 +2,41 @@ package auth
 
 import (
 	"context"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/mollshf/academic/internal/shared"
 )
 
-type UserService interface {
-	CheckUserExists(ctx context.Context, email string) (bool, error)
-}
-
-type Options struct {
-	*AuthRepository
-	UserService
-}
-
 type AuthService struct {
-	options *Options
+	*AuthRepository
 }
 
-func NewAuthService(opts *Options) (*AuthService, error) {
-	if opts.UserService == nil {
+func NewAuthService(authRepository *AuthRepository) (*AuthService, error) {
+	if authRepository == nil {
 		return nil, shared.NewInternalServerError("User service is required", "AUTH_UNKNOWN_ERROR")
 	}
 	return &AuthService{
-		options: opts,
+		authRepository,
 	}, nil
 }
 
-func (s *AuthService) Login(ctx context.Context, req *LoginRequest) (*LoginResponse, error) {
-	exists, err := s.options.UserService.CheckUserExists(ctx, req.Email)
+func (s *AuthService) RegisterUser(ctx context.Context, req *CreateUserRequest) (*uuid.UUID, error) {
+
+	id, err := s.AuthRepository.InsertUser(ctx, &User{
+		Fullname:      req.Fullname,
+		Username:      req.Username,
+		Email:         req.Email,
+		VerifiedEmail: false,
+		CreatedAt:     time.Now(),
+		UpdatedAt:     time.Now(),
+		DeletedAt:     time.Time{},
+	})
 
 	if err != nil {
-		return nil, shared.NewInternalServerError("Failed to check user exists", "AUTH_UNKNOWN_ERROR")
+		return nil, shared.NewBadRequestError("Failed to insert user", "AUTH_UNKNOWN_ERROR")
 	}
 
-	if !exists {
-		return nil, shared.NewNotFoundError("User not found", "USER_NOT_FOUND")
-	}
-
-	return &LoginResponse{
-		CsrToken: "csr_token",
-		Roles:    []string{"user"},
-	}, nil
+	return id, nil
 
 }

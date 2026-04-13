@@ -1,15 +1,16 @@
 package auth
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/mollshf/academic/internal/shared"
 )
 
 type AuthHandler struct {
 	authRepository *AuthRepository
+	authService    *AuthService
 }
 
 func NewAuthHandler(authRepository *AuthRepository) *AuthHandler {
@@ -24,27 +25,25 @@ func NewAuthHandler(authRepository *AuthRepository) *AuthHandler {
 //	@Accept			json
 //	@Produce		json
 //	@Param			body	body		CreateUserRequest	true	"Payload"
-//	@Success		200		{object}	Response
+//	@Success		201		{object}	shared.Response
 //	@Failure		400		{object}	shared.APIError
+//	@Failure		500		{object}	shared.APIError
 //	@Router			/users [post]
-func (h *AuthHandler) CreateUser(c *gin.Context) error {
+func (h *AuthHandler) RegisterUser(c *gin.Context) error {
 	var createUserRequest CreateUserRequest
 	err := c.ShouldBind(&createUserRequest)
 	if err != nil {
-		fmt.Println(err, "INI ADALAH ERRORNYA CUY")
 		return err
 	}
 
-	id, err := h.authRepository.InsertUser(c.Request.Context(), &User{
-		Name: createUserRequest.Name,
-	})
+	id, err := h.authService.RegisterUser(c.Request.Context(), &createUserRequest)
 
 	if err != nil {
 		return err
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Berhasil diinput",
+	shared.Created(c, gin.H{
+		"message": "User berhasil didaftarkan",
 		"data":    id,
 	})
 	return nil

@@ -42,7 +42,7 @@ func main() {
 
 	router.GET("/health/db", shared.Wrap(database.Health))
 
-	router.POST("/users", shared.Wrap(authHandler.CreateUser))
+	router.POST("/users", shared.Wrap(authHandler.RegisterUser))
 
 	router.GET("/users", shared.Wrap(authHandler.GetUsers))
 

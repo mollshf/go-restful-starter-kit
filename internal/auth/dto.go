@@ -1,15 +1,18 @@
 package auth
 
 type CreateUserRequest struct {
-	Name string `json:"name" binding:"required"`
-}
-
-type LoginRequest struct {
+	Fullname string `json:"fullname" binding:"required"`
+	Username string `json:"username" binding:"required"`
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
+type LoginRequest struct {
+	Username string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
 type LoginResponse struct {
-	CsrToken string   `json:"csr_token"`
-	Roles    []string `json:"roles"`
+	CsrfToken string   `json:"csrf_token"`
+	Roles     []string `json:"roles"`
 }

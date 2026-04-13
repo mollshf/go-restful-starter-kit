@@ -27,13 +27,38 @@ func NewAuthRepository(db *pgxpool.Pool) *AuthRepository {
 func (pg *AuthRepository) InsertUser(ctx context.Context, user *User) (*uuid.UUID, error) {
 
 	var id uuid.UUID
-	err := pg.db.QueryRow(ctx, "INSERT INTO users (name) VALUES ($1) RETURNING id", user.Name).Scan(&id)
+	query := "INSERT INTO users (fullname, username, email, verified_email, created_at, updated_at, deleted_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id"
+	err := pg.db.QueryRow(ctx, query, user.Fullname, user.Username, user.Email, user.VerifiedEmail, user.CreatedAt, user.UpdatedAt, user.DeletedAt).Scan(&id)
 	fmt.Println(err, "INI ADALAH ERRORNYA CUY")
 	if err != nil {
 		return nil, ErrorSqlError
 	}
 
 	return &id, nil
+}
+
+func (pg *AuthRepository) InsertAccount(ctx context.Context, acc *Account) (bool, error) {
+	var id uuid.UUID
+	query := "INSERT INTO accounts (user_id, password_hash, provider, provider_account_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id"
+	err := pg.db.QueryRow(ctx, query, acc.UserId, acc.PasswordHash, acc.Provider, acc.ProviderAccountID, acc.CreatedAt, acc.UpdatedAt).Scan(&id)
+	fmt.Println(err, "INI ADALAH ERRORNYA CUY")
+	if err != nil {
+		return false, ErrorSqlError
+	}
+	return true, nil
+}
+
+func (pg *AuthRepository) InsertSession(ctx context.Context, session *Session) (bool, error) {
+
+	var id uuid.UUID
+	query := "INSERT INTO sessions (user_id, active_role, token_hash, csrf_token, ip_address, user_agent, created_at, expired_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id"
+	err := pg.db.QueryRow(ctx, query, session.UserID, session.ActiveRole, session.TokenHash, session.CsrfToken, session.IPAddress, session.UserAgent, session.CreatedAt, session.ExpiredAt).Scan(&id)
+	fmt.Println(err, "INI ADALAH ERRORNYA CUY")
+	if err != nil {
+		return false, ErrorSqlError
+	}
+
+	return true, nil
 }
 
 func (pg *AuthRepository) GetUsers(ctx context.Context) ([]*User, error) {
