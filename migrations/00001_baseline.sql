@@ -1,8 +1,6 @@
 -- +goose Up
 CREATE SCHEMA IF NOT EXISTS "public";
 
-CREATE SCHEMA IF NOT EXISTS "public";
-
 CREATE TABLE "public"."permissions" (
     "id" uuid NOT NULL DEFAULT gen_random_uuid(),
     "permission_name" varchar NOT NULL,
