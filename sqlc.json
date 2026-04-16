@@ -1,0 +1,60 @@
+{
+  "version": "2",
+  "sql": [
+    {
+      "engine": "postgresql",
+      "queries": "./query",
+      "schema": "./migrations",
+      "gen": {
+        "go": {
+          "package": "repository",
+          "out": "internal/repository",
+          "sql_package": "pgx/v5",
+          "emit_pointers_for_null_types": true,
+          "overrides": [
+            {
+              "db_type": "uuid",
+              "go_type": {
+                "import": "github.com/google/uuid",
+                "type": "UUID"
+              }
+            },
+            {
+              "db_type": "uuid",
+              "nullable": true,
+              "go_type": {
+                "import": "github.com/google/uuid",
+                "type": "UUID",
+                "pointer": true
+              }
+            },
+            {
+              "db_type": "pg_catalog.timestamp",
+              "go_type": "time.Time"
+            },
+            {
+              "db_type": "pg_catalog.timestamp",
+              "nullable": true,
+              "go_type": {
+                "type": "time.Time",
+                "pointer": true
+              }
+            },
+            {
+              "db_type": "pg_catalog.timestamptz",
+              "go_type": "time.Time"
+            },
+            {
+              "db_type": "pg_catalog.timestamptz",
+              "nullable": true,
+              "go_type": {
+                "type": "time.Time",
+                "pointer": true
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
