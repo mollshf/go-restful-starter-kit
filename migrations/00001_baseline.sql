@@ -26,8 +26,8 @@ CREATE TABLE "public"."accounts" (
     "password_hash" varchar NOT NULL,
     "provider" varchar,
     "provider_account_id" varchar,
-    "created_at" bigint DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" bigint,
+    "created_at" timestamp DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" timestamp,
     PRIMARY KEY ("id")
 );
 
