@@ -1,10 +1,11 @@
-package shared
+package web
 
 import (
 	"errors"
 	"log/slog"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mollshf/ums/internal/shared/utility"
 )
 
 type AppHandler func(c *gin.Context) error
@@ -14,7 +15,7 @@ func Wrap(h AppHandler) gin.HandlerFunc {
 
 		err := h(c)
 		if err != nil {
-			var apiError *APIError
+			var apiError *utility.APIError
 			if errors.As(err, &apiError) {
 				slog.Warn("Kesalahan User", "error", err)
 				Failed(c, apiError)
@@ -22,7 +23,7 @@ func Wrap(h AppHandler) gin.HandlerFunc {
 			}
 
 			slog.Error("Terjadi kesalahan pada internal server", "error", err)
-			Failed(c, NewInternalServerError("Terjadi kesalahan pada internal server", "INTERNAL_SERVER_ERROR"))
+			Failed(c, utility.NewInternalServerError("Terjadi kesalahan pada internal server", "INTERNAL_SERVER_ERROR"))
 		}
 	}
 }

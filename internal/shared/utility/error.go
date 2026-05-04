@@ -1,4 +1,4 @@
-package shared
+package utility
 
 import (
 	"fmt"
@@ -81,6 +81,14 @@ func NewValidationError(message string, code string, details any) *APIError {
 func NewInternalServerError(message string, code string) *APIError {
 	return &APIError{
 		Status:  http.StatusInternalServerError,
+		Code:    code,
+		Message: message,
+	}
+}
+
+func NewConflictError(message string, code string) *APIError {
+	return &APIError{
+		Status:  http.StatusConflict,
 		Code:    code,
 		Message: message,
 	}

@@ -1,0 +1,32 @@
+version: '2'
+
+run:
+  timeout: 5m
+
+linters:
+  default: none
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - exhaustruct
+  settings:
+    exhaustruct:
+      # Pattern WAJIB match full type name dengan format: package_path.StructName
+      # Pakai slash sebagai separator package path, dot sebelum struct name
+      exclude:
+        # Standard library
+        - '.*/http\.Cookie$'
+
+        # Third-party config
+        - '.*/cors\.Config$'
+
+        # Struct kamu yang field-nya memang opsional
+        - '.*/utility\.APIError$'
+        - '.*/web\.Response$'
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

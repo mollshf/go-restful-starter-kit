@@ -1,6 +1,8 @@
 package main
 
-import "github.com/gin-contrib/cors"
+import (
+	"github.com/gin-contrib/cors"
+)
 
 var corsConfig = cors.Config{
 	AllowOrigins: []string{

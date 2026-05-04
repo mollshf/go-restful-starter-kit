@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/mollshf/academic/internal/shared"
+	"github.com/mollshf/ums/internal/shared/web"
 )
 
 func NewPool(ctx context.Context, dsn string) (*pgxpool.Pool, error) {
@@ -72,7 +72,7 @@ func (d *Database) Health(c *gin.Context) error {
 		stats["message"] = "Many connections are being closed due to max lifetime, consider increasing max lifetime or revising the connection usage pattern."
 	}
 
-	shared.OK(c, stats)
+	web.OK(c, stats)
 
 	return nil
 }

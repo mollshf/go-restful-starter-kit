@@ -1,16 +1,17 @@
-package shared
+package web
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mollshf/ums/internal/shared/utility"
 )
 
 type Response struct {
-	Success bool  `json:"success"`
-	Data    any   `json:"data,omitempty"`
-	Error   any   `json:"error,omitempty"`
-	Meta    *Meta `json:"meta,omitempty"`
+	Success bool              `json:"success" example:"true"`
+	Data    any               `json:"data,omitempty"`
+	Error   *utility.APIError `json:"error,omitempty"`
+	Meta    *Meta             `json:"meta,omitempty"`
 }
 
 type Meta struct {
@@ -27,10 +28,10 @@ func OK(c *gin.Context, data any) {
 	})
 }
 
-func Failed(c *gin.Context, error *APIError) {
-	c.JSON(error.Status, &Response{
+func Failed(c *gin.Context, err *utility.APIError) {
+	c.JSON(err.Status, &Response{
 		Success: false,
-		Error:   error,
+		Error:   err,
 	})
 }
 
