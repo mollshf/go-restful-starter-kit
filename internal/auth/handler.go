@@ -42,7 +42,7 @@ func (h *AuthHandler) RegisterUser(c *gin.Context) error {
 		return utility.ParseValidationError(err)
 	}
 
-	_, err = h.authService.RegisterUser(c.Request.Context(), &createUserRequest)
+	err = h.authService.RegisterUser(c.Request.Context(), &createUserRequest)
 	if err != nil {
 		return err
 	}

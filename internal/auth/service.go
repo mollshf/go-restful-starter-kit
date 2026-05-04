@@ -122,14 +122,14 @@ func (s *AuthService) LogoutAll(ctx context.Context, userID uuid.UUID) error {
 	return nil
 }
 
-func (s *AuthService) RegisterUser(ctx context.Context, req *CreateUserRequest) (*uuid.UUID, error) {
+func (s *AuthService) RegisterUser(ctx context.Context, req *CreateUserRequest) error {
 	hashedPassword, err := utility.HashPassword(req.Password)
 	if err != nil {
 		slog.Error("Failed to hash password", "error", err)
-		return nil, err
+		return err
 	}
 
-	id, err := s.repo.CreateUserCredential(ctx, &CreateUserCredentialPayload{
+	err = s.repo.CreateUserCredential(ctx, &CreateUserCredentialPayload{
 		DtoCreateUser:  req,
 		HashedPassword: hashedPassword,
 		Provider:       ProviderCredentials,
@@ -137,15 +137,15 @@ func (s *AuthService) RegisterUser(ctx context.Context, req *CreateUserRequest) 
 	if err != nil {
 		switch {
 		case errors.Is(err, ErrEmailDuplicate):
-			return nil, utility.NewConflictError("email sudah terdaftar", "AUTH_EMAIL_TAKEN")
+			return utility.NewConflictError("email sudah terdaftar", "AUTH_EMAIL_TAKEN")
 		case errors.Is(err, ErrUsernameDuplicate):
-			return nil, utility.NewConflictError("username sudah digunakan", "AUTH_USERNAME_TAKEN")
+			return utility.NewConflictError("username sudah digunakan", "AUTH_USERNAME_TAKEN")
 		}
 		slog.Error("Failed to insert user credential", "error", err)
-		return nil, err
+		return err
 	}
 
-	return id, nil
+	return nil
 }
 
 func (s *AuthService) GetMe(ctx context.Context, userID uuid.UUID) (*queries.FindUserByIDRow, error) {

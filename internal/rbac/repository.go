@@ -16,6 +16,6 @@ func NewRepository(db *pgxpool.Pool, repo *queries.Queries) *Repository {
 	return &Repository{db: db}
 }
 
-func (r *Repository) InsertRole(ctx context.Context) (*uuid.UUID, error) {
-	return nil, nil
+func (r *Repository) InsertRole(ctx context.Context) (uuid.UUID, error) {
+	return uuid.Nil, nil
 }

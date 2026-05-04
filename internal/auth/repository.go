@@ -48,10 +48,10 @@ type CreateUserCredentialPayload struct {
 	Provider       Provider
 }
 
-func (pg *AuthRepository) CreateUserCredential(ctx context.Context, payload *CreateUserCredentialPayload) (*uuid.UUID, error) {
+func (pg *AuthRepository) CreateUserCredential(ctx context.Context, payload *CreateUserCredentialPayload) error {
 	tx, err := pg.db.Begin(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("begin transaction: %w", err)
+		return fmt.Errorf("begin transaction: %w", err)
 	}
 	defer func() { _ = tx.Rollback(ctx) }()
 
@@ -69,12 +69,12 @@ func (pg *AuthRepository) CreateUserCredential(ctx context.Context, payload *Cre
 		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
 			switch pgErr.ConstraintName {
 			case "users_email_key":
-				return nil, ErrEmailDuplicate
+				return ErrEmailDuplicate
 			case "users_username_key":
-				return nil, ErrUsernameDuplicate
+				return ErrUsernameDuplicate
 			}
 		}
-		return nil, fmt.Errorf("insert user: %w", err)
+		return fmt.Errorf("insert user: %w", err)
 	}
 
 	// Tx step 2: insert into user_accounts — attach the password credential to the user.
@@ -85,14 +85,14 @@ func (pg *AuthRepository) CreateUserCredential(ctx context.Context, payload *Cre
 		ProviderAccountID: nil,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("insert account: %w", err)
+		return fmt.Errorf("insert account: %w", err)
 	}
 
 	if err = tx.Commit(ctx); err != nil {
-		return nil, fmt.Errorf("commit transaction: %w", err)
+		return fmt.Errorf("commit transaction: %w", err)
 	}
 
-	return &userID, nil
+	return nil
 }
 
 // DeleteSessionByTokenHash removes a single session row by its token hash.
