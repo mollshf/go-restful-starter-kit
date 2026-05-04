@@ -3,8 +3,8 @@ package auth
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/mollshf/ums/internal/shared/queries"
-	"github.com/mollshf/ums/internal/shared/web"
+	"github.com/mollshf/starter-kit/internal/shared/queries"
+	"github.com/mollshf/starter-kit/internal/shared/web"
 )
 
 // AuthRoutes wires the auth module's handlers and constructs the shared

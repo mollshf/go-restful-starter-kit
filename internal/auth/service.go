@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mollshf/ums/internal/shared/queries"
-	"github.com/mollshf/ums/internal/shared/utility"
+	"github.com/mollshf/starter-kit/internal/shared/queries"
+	"github.com/mollshf/starter-kit/internal/shared/utility"
 )
 
 const (

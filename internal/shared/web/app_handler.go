@@ -5,7 +5,7 @@ import (
 	"log/slog"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mollshf/ums/internal/shared/utility"
+	"github.com/mollshf/starter-kit/internal/shared/utility"
 )
 
 type AppHandler func(c *gin.Context) error

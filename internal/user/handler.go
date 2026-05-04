@@ -2,8 +2,8 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/mollshf/ums/internal/shared/queries"
-	"github.com/mollshf/ums/internal/shared/utility"
+	"github.com/mollshf/starter-kit/internal/shared/queries"
+	"github.com/mollshf/starter-kit/internal/shared/utility"
 )
 
 type Handler struct {

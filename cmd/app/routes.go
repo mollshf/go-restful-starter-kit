@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/mollshf/ums/internal/auth"
-	"github.com/mollshf/ums/internal/shared/queries"
+	"github.com/mollshf/starter-kit/internal/auth"
+	"github.com/mollshf/starter-kit/internal/shared/queries"
 )
 
 func ApiRoutes(router *gin.Engine, db *pgxpool.Pool, repo *queries.Queries) {

@@ -1,4 +1,4 @@
-module github.com/mollshf/ums
+module github.com/mollshf/starter-kit
 
 go 1.25.3
 

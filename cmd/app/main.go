@@ -10,9 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
-	"github.com/mollshf/ums/internal/database"
-	"github.com/mollshf/ums/internal/shared/queries"
-	"github.com/mollshf/ums/internal/shared/web"
+	"github.com/mollshf/starter-kit/internal/database"
+	"github.com/mollshf/starter-kit/internal/shared/queries"
+	"github.com/mollshf/starter-kit/internal/shared/web"
 )
 
 // @title			UMS API

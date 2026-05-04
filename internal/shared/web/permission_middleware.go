@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/mollshf/ums/internal/shared/utility"
+	"github.com/mollshf/starter-kit/internal/shared/utility"
 )
 
 const ContextUserIDKey = "auth_user_id"

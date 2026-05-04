@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/mollshf/ums/internal/shared/web"
+	"github.com/mollshf/starter-kit/internal/shared/web"
 )
 
 func NewPool(ctx context.Context, dsn string) (*pgxpool.Pool, error) {

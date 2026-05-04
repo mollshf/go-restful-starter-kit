@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/mollshf/ums/internal/shared/queries"
+	"github.com/mollshf/starter-kit/internal/shared/queries"
 )
 
 var (
